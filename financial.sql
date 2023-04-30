@@ -21,16 +21,10 @@ QUESTIONS:
 There is no calculation in the Excel worksheet for those values but she does have a pivot table
 that just lists out 'patient_account_no' and '
 
-
-
-
 ##################################################################################
 */
 
-
-
 --Get a count of unique (distinct) visits
-
 
 
 
