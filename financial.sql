@@ -67,16 +67,6 @@ group by enc.doctorID, doctors.PrintName
 --group by patientID
 
 
-
-
-
-
-
-
-
-
-
-
 --Facilities
 with facilities as
 (select * from dbo.edi_facilities),
