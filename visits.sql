@@ -36,6 +36,7 @@ Visit Count
 
 QUESITONS:
 1. What are the different visit types and where can I go to see them in ECW?
+2. Talk with Chrisine about visit types. What is PTDASH?
 ##################################################################################
 */
 
