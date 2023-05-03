@@ -55,6 +55,10 @@ and deleteFlag <> 1
 --group by patientID
 
 
+--Get a distinct count of Total Patients
+select count (distinct pid) from dbo.patients
+where webEnabledDate between '2002-08-31 09:44:40.000' and '2023-05-03 09:44:40.000'
+
 
 --Get a distinct visit count by Facility or Provider. Don't touch this one. It is done.
 select
@@ -72,6 +76,21 @@ group by enc.doctorID, doctors.PrintName
 --and patientID in ('33761','35976')
 --group by patientID
 
+--Breakout visits by year, month and day. Encounter counts are grouped by Encounter type and DoctorID
+select
+datepart(year,enc.date) as year,
+datepart(month,enc.date) as month,
+datepart(day,enc.date) as day,
+count (distinct enc.encounterID) as visit_count,
+enc.encType,
+enc.doctorID
+from dbo.enc enc
+join dbo.doctors doctors
+on enc.doctorID = doctors.doctorID
+where enc.date between '2002-08-31 09:44:40.000' and '2023-05-03 09:44:40.000'
+and enc.deleteFlag <> 1
+--and enc.doctorID = '24718'
+group by enc.encType, enc.date, enc.doctorID
 
 
 --Get a distinct new patient count by Facility or Provider grouped by date. Don't touch this one. It is done.
