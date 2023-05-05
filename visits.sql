@@ -18,6 +18,62 @@ encType 8 = PTDASH
 encType 9 = NULL
 encType 12 = NULL
 
+table = dbo.enc
+Field = VisitType
+Values:
+CON
+VISION
+PTDASH
+ORTHO CONS
+ESTPT
+NULL
+F/U
+SUR
+zINJ
+TEL
+ANN VISIT
+AWV
+OB
+Coun
+NP
+Pre
+Dental
+NV
+IGTN-EST
+PRE-OP
+CC
+NP-DM
+CC-SNF
+NP-IGTN
+NEUR
+JBR-SCR
+IGTN-NC
+NP-NEUR
+POST-OP
+WOUND
+POSTOP#1
+POSTOP#2
+POSTOP#3
+Migrated
+NP-REF
+ORTH-P/U
+LZR
+ACMR-SCR
+PROC
+FCR-SCR
+WEB
+ePrescription
+JBR-SURG
+Home
+ORTH SCAN
+Qutenza
+LZR/ELIGIB
+NP-Wound
+POSTOP#4
+LAB
+ACMR- SURG
+'CON','VISION','PTDASH','ORTHO CONS','ESTPT','NULL','F/U','SUR','zINJ','TEL','ANN VISIT','AWV','OB','Coun','NP','Pre','Dental','NV','IGTN-EST','PRE-OP','CC','NP-DM','CC-SNF','NP-IGTN','NEUR','JBR-SCR','IGTN-NC','NP-NEUR','POST-OP','WOUND','POSTOP#1','POSTOP#2','POSTOP#3','Migrated','NP-REF','ORTH-P/U','LZR','ACMR-SCR','PROC','FCR-SCR','WEB','ePrescription','JBR-SURG','Home','ORTH SCAN','Qutenza','LZR/ELIGIB','NP-Wound','POSTOP#4','LAB','ACMR- SURG',
+
 TEST ACCOUNTS:
 dbo.enc
 patientID = 31643, 8663
@@ -35,8 +91,6 @@ Visit Count
 
 
 QUESITONS:
-1. What are the different visit types and where can I go to see them in ECW?
-2. Talk with Chrisine about visit types. What is PTDASH?
 ##################################################################################
 */
 
@@ -53,6 +107,20 @@ and encType in ('1')
 and deleteFlag <> 1
 --and patientID in ('33761','35976')
 --group by patientID
+
+--New Patients. Don't touch this one. It is done.
+select *
+--count (distinct enc.encounterID) as visit_count, doctors.PrintName
+from dbo.enc enc
+join dbo.doctors doctors
+on enc.doctorID = doctors.doctorID
+where enc.date between '2021-08-29 00:00:00.000' and '2021-09-04 00:00:00.000'
+and enc.deleteFlag <> 1
+and enc.doctorID = '9176'
+--and VisitType = 'NP'
+and visittype in ('NP','NP-DM','NP-IGTN','NP-NEUR','NP-REF','NP-WOUND')
+and status not in ('N/S','N/A','R/S','CANCSMS','CANCPHONE','CANC')
+--group by doctors.printname
 
 
 --Get a distinct count of Total Patients
