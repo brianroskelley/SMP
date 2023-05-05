@@ -122,6 +122,20 @@ and visittype in ('NP','NP-DM','NP-IGTN','NP-NEUR','NP-REF','NP-WOUND')
 and status not in ('N/S','N/A','R/S','CANCSMS','CANCPHONE','CANC')
 --group by doctors.printname
 
+--Total Patients. Don't touch this one. It is done.
+select *
+--count (distinct enc.encounterID) as visit_count, doctors.PrintName
+from dbo.enc enc
+join dbo.doctors doctors
+on enc.doctorID = doctors.doctorID
+where enc.date between '2021-08-01 00:00:00.000' and '2021-08-07 00:00:00.000'
+and enc.deleteFlag <> 1
+and enc.doctorID = '9176'
+--and VisitType = 'NP'
+and visittype not in ('ACMR-SCR','JBR-SCR','JBR-SURG','FCR-SCR','ACMR-SURG')
+and status not in ('N/S','N/A','R/S','CANCSMS','CANCPHONE','CANC','')
+--group by doctors.printname
+
 
 --Get a distinct count of Total Patients
 select count (distinct pid) from dbo.patients
