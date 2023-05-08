@@ -108,7 +108,7 @@ and deleteFlag <> 1
 --and patientID in ('33761','35976')
 --group by patientID
 
---New Patients. Don't touch this one. It is done.
+--New Patients by Doctor. Don't touch this one. It is done.
 select
 count (distinct enc.encounterID) as visit_count, doctors.PrintName
 from dbo.enc enc
@@ -123,7 +123,7 @@ and status not in ('N/S','N/A','R/S','CANCSMS','CANCPHONE','CANC')
 group by doctors.printname
 
 
---Total Patients. Don't touch this one. It is done.
+--Total Patients by Doctor. Don't touch this one. It is done.
 select
 count (distinct enc.encounterID) as visit_count, doctors.PrintName
 from dbo.enc enc
