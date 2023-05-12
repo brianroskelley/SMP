@@ -82,6 +82,28 @@ The delete flag is necessary. If you do not include that variable, if someone ha
 value greater than 0, it will count that encounter and you don't want that. I have no idea what
 deleteFlag is controlled by. ¯\_(ツ)_/¯
 
+
+FacilityID and Facility Name
+
+6 = Millcreek 
+2 = Riverton 
+5 = Provo South 
+19, 50, 51, 52 = Provo North 
+4 = Price 
+21 = Fillmore
+22 = Delta 
+3 = Atlanta 
+18 = St George 
+30 = Vernal
+84 = West Valley 
+94 = Tampa
+
+AMBLE (Missing Sheridan Assisted Living, Anthology of South Jordan, Amble Home (maybe 86 or 47 or a new one). This might be a new facility)
+’15’,’86’,’47’,’27’,’28’,’79’,’81’,’25’,’91’,’126’,’78’,’73’,’92’,’16’,’72’,’74’,’80’,’98’,’41’,’89’,’96’,’23’,’55’,’61’,’30’,’95’,’31’,’71’,’59’,’75’,’9’,’60’,’12’,’62’,’97’,’67’,’54’,’42’,’83’,’24’,’44’,’38’,’13’,’49’,’90’,’17’,’88’,’76’,’32’,’104’,’103’,’105’,’106’,’93’,’108’,’107’,’111’,’110’,’112’,’113’,’116’,’115’,’117’,’118’,’120’,’121’,’122’,’124’,’123’,’126’,’127’,’129’,’130’,’131’,’136’,’135’,’137’,’139’,’141’,’142’
+
+Whole Group
+Everyone <> (’34’,’48’,’109’,’63’,’142’,’143’)
+
 Facilities:
 Id	Name	Code
 15	Abbington Manor Senior Living	ABB
