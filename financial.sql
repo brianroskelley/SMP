@@ -1,6 +1,6 @@
 /*
 ##################################################################################
-# Date Modified: 4/27/2023
+# Date Modified: 5/17/2023
 # Purpose of Code: Build out Financial Data
 # Written by: Brian Roskelley
 # Updated by: 
@@ -11,154 +11,59 @@ table = UNKNOWN
 Patient Acct No
 Claim No
 
+IMPORTANT FIELDS/VALUES:
+table = dbo.superbill_categories
+Field = groupid
+Values:
+3 = Casting
+4 = Endo/Arth
+6 = Foot
+10 = Leg
+15 = Strap & Splints
+16 = E/M Consult
+17 = E/M EST
+
+
+CPT Codes not in:
+('82607','83037','87075','87481','87500','87640','87641','87651','87798','87801','88305','Q4101','Q4106','Q4132','Q4133','Q4158','Q4159','Q4164','Q4177','Q4188','Q4196','Q4197','Q4204','Q4210','Q4215','Q4244','Q4248','Q4252','Q4254','11400','A6010','A6223','L0649','QUTRE','1100F','11740','3288F','G8430','28730','99337','G0456','38220','PSLEV','A6021','A5510','99201','17000','17003','Q4234','86340','99211','76140','28315','11600','29892','L4396','L4631','27632','88304','S9981','99224','93998','28092','99321','Q4221','REF','A5512','28238','27613')
+
 TEST ACCOUNTS:
 
 
 QUESTIONS:
-1. How is Vanessa totalling the Dashboard workheet for:
-'Unique_Patient' = 8837
-'Visits" = 27235
-There is no calculation in the Excel worksheet for those values but she does have a pivot table
-that just lists out 'patient_account_no' and '
 
 ##################################################################################
 */
 
---Get a count of unique (distinct) visits
+
+select 
+inv.id as claim_no,
+inv.encounterid,
+inv.patientid,
+--inv.dosproviderid,
+--inv.paytoproviderid,
+--inv.renproviderid,
+--inv.supervisorid,
+--inv.guarantorid,
+inv.servicedt as service_date,
+inv.invoicedt,
+inv.InvoiceAmount,
+inv.payment,
+inv.copay,
+inv.uncoveredamount,
+inv.ptresp,
+inv.ptpayment,
+inv.ptbalance,
+inv.balance,
+inv.netpayment as allowed,
+inv.allowedfee
+from dbo.edi_invoice inv
+--left join dbo.edi_paymentdetail payment
+--on inv.id = payment.invoiceid
+where renproviderID in ('9176')
+and servicedt between '2021-07-25 00:00:00.000' and '2021-07-31 00:00:00.000'
+and id = '1092'
 
 
 
---Get a count of unique (distinct) patients
-select
---enc.doctorID,
---doctors.PrintName,
-count (distinct enc.encounterID) as visit_count
-from dbo.enc enc
---join dbo.doctors doctors
---on enc.doctorID = doctors.doctorID
-where enc.date between '2000-01-01' and '2023-04-28'
-and enc.encType in ('1')
-and enc.deleteFlag <> 1
---group by enc.encounterID
---group by enc.doctorID, doctors.PrintName
---order by enc.date
---and patientID in ('33761','35976')
---group by patientID
 
-select
-enc.doctorID,
-doctors.PrintName,
-count (distinct enc.encounterID) as visit_count
-from dbo.enc enc
-join dbo.doctors doctors
-on enc.doctorID = doctors.doctorID
-where enc.date between '2000-01-01' and '2023-04-28'
-and enc.encType in ('1')
-and enc.deleteFlag <> 1
-group by enc.doctorID, doctors.PrintName
---order by enc.date
---and patientID in ('33761','35976')
---group by patientID
-
-
---Facilities
-with facilities as
-(select * from dbo.edi_facilities),
---Users
-users as
-(select * from dbo.users),
---ENC
-enc as
-(select * from dbo.enc)
-
-select a.name, a.pos, c.doctorID
-from enc c
-left join facilities a
-on c.pos = a.pos
-where a.pos = '11'
-
-
-from dbo.doctors b
-
-join b.doctorID on c.doctorID
-
-
-select top 1000 * from dbo.users
-select top 1000 * from dbo.doctors
-select top 1000 * from dbo.edi_facilities
-select top 1000 * from dbo.enc
-where patientID = '22928'
-
-
-join
-users b
-on a.
-
-a.uid,
-CONCAT(a.ulname,', ', a.ufname) as Patient,
-CONVERT(varchar, a.ptDob, 107) as 'Patient DOB',
-FLOOR((CAST (GetDate() AS INTEGER) - CAST(a.ptDOB AS INTEGER)) / 365.25) as 'Patient Age',
-a.sex as 'Patient Gender',
-a.upaddress as 'Patient Address Line 1',
-a.upaddress2 as 'Patient Address Line 2',
-a.upcity as 'Patient City',
-a.upstate as 'Patient State',
-a.zipcode as 'Patient ZIP Code',
-a.CountryCode as 'Patient Country Code',
-a.umobileno as 'Patient Cell Phone',
-a.upPhone as 'Patient Home Phone'
-from dbo.users a
-join dbo.edi_facilities b on 
-
-
-select top 1000 *  from dbo.edi_inv_cpt
-where InvoiceID = '10157'
-
-
-select doctorID, patientID, encounterID from dbo.enc
-where encounterId = '10157'
-
-select top 10 * from dbo.enc
-where encounterID = '14990'
-
-select top 10 * from dbo.prisma_encounters
-where recordid = '10157'
-14990
-
-select top 10 * from dbo.prisma_providers
-where prismaRecordId = '17613'
-
-select top 10 * from dbo.prisma_user_patient_mapping
-where userID = '17613'
-
-select top 10 * from dbo.prisma_patient_data
-where patientId like '%17613%'
-
-select top 10 * from dbo.prisma_patient_status
-where patientID = '17613'
-
-select top 10 * from dbo.prisma_userprofile_settings
-where uid = '22129'
-
-select * from dbo.enc
-where patientID = '22129'
-
-'recordid' in prisma_encounters = 'invoiceid' in edi_inv_cpt
-'recordid' in prisma_encounters = 'prismaRecordID' in prisma_providers
-
---financial data
-select a.recordid as 'Claim No', 
-c.patientID as 'Patient Acct No', 
---b.prismaRecordID as 'Claim No', 
---b.name, 
-c.doctorID, 
-d.PrintName
-from dbo.prisma_encounters a
---join dbo.prisma_providers b
---on a.recordid = b.prismaRecordID
---on a.id = b.id
-join dbo.enc c
-on a.recordid = c.InvoiceId
-left join dbo.doctors d
-on c.doctorID = d.doctorID
-where a.recordid = '10157'
